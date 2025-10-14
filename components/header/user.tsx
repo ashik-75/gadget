@@ -2,6 +2,7 @@
 
 import { ClerkLoaded, SignInButton, UserButton, useUser } from '@clerk/nextjs'
 import { neobrutalism } from '@clerk/themes'
+import { BsPerson } from 'react-icons/bs'
 export default function User() {
   const { user } = useUser()
   return (
@@ -14,8 +15,9 @@ export default function User() {
         />
       ) : (
         <SignInButton mode="modal">
-          <button className="bg-black text-lime-50 p-3 px-4 rounded-sm font-medium">
-            To Enter
+          <button className="border text-sm flex gap-1 items-center p-1 px-2 rounded-sm">
+            <BsPerson />
+            Sign In
           </button>
         </SignInButton>
       )}

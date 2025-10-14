@@ -12,6 +12,8 @@ import { neobrutalism } from '@clerk/themes'
 import { Toaster } from 'anni'
 import { VisualEditing } from 'next-sanity'
 import { draftMode } from 'next/headers'
+import NextTopLoader from 'nextjs-toploader'
+import Categories from './(all)/@categories'
 
 export const metadata: Metadata = {
   title: '366 Clothing | Moda para todos',
@@ -78,6 +80,7 @@ export default async function RootLayout({
           suppressHydrationWarning
           className="antialiased font-hellix bg-[rgb(251,255,244)] min-h-svh text-black "
         >
+          <NextTopLoader color="#ff9142" height={2} />
           <ThemeProvider>
             {(await draftMode()).isEnabled && (
               <>
@@ -87,6 +90,7 @@ export default async function RootLayout({
             )}
             <Toaster />
             <Header />
+            <Categories />
             <main className="min-h-[600px]">{children}</main>
             <Footer />
             <SanityLive />
