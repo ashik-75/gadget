@@ -1,0 +1,50 @@
+import { formatPriceBDT } from '@/lib/utils'
+import { GET_PRODUCTS_QUERYResult } from '@/sanity.types'
+import { urlFor } from '@/sanity/lib/image'
+import Image from 'next/image'
+import Link from 'next/link'
+
+export default function ProductCard({
+  product
+}: {
+  product: GET_PRODUCTS_QUERYResult[0]
+}) {
+  const exhaustive = product.stock === 0
+  return (
+    <div
+      data-exhaustive={exhaustive ? 'true' : undefined}
+      className="relative bg-white rounded-md shadow-sm flex data-[exhaustive]:opacity-60 data-[exhaustive]:grayscale flex-col group overflow-hidden"
+    >
+      <Link
+        href={`/products/${product.slug?.current}`}
+        className="absolute inset-0 z-[1]"
+      />
+      <div className="overflow-hidden relative aspect-[6/5]">
+        {exhaustive && (
+          <div className="w-full absolute bg-stone-500/80 grid place-content-center text-white text-xl h-full inset-0">
+            <p>Agotado</p>
+          </div>
+        )}
+        <Image
+          width={300}
+          height={300}
+          className="w-full group-hover:scale-110 transition-transform h-full object-cover"
+          src={urlFor(product.images![0]).width(300).height(300).url()}
+          alt={product.name || 'Product image'}
+        />
+      </div>
+      <div className="overflow-ellipsis p-3 flex-grow gap-0 flex flex-col">
+        <h2 className="text-ellipsis flex-grow line-clamp-1 text-sm font-medium">
+          {product.name}
+        </h2>
+        <Link
+          href={`/categories/${product.categories?.[0].slug?.current}`}
+          className="text-xs z-[1] relative text-lime-500 hover:underline"
+        >
+          {product.categories?.[0].title}
+        </Link>
+        <p className="font-bold ">{formatPriceBDT(product.price)}</p>
+      </div>
+    </div>
+  )
+}
