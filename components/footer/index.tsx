@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function Footer() {
   return (
     <div className="bg-zinc-900">
@@ -13,19 +15,6 @@ export default function Footer() {
                 <div className="space-y-2">
                   <p>123 Commerce Street</p>
                   <p>Dhaka, Bangladesh 1000</p>
-                  <p className="pt-2">
-                    <a href="tel:+8801234567890" className="hover:underline">
-                      +880 11111-88488
-                    </a>
-                  </p>
-                  <p>
-                    <a
-                      href="mailto:info@ecommerce-store.com"
-                      className="hover:underline"
-                    >
-                      your@gmail.com
-                    </a>
-                  </p>
                 </div>
               </div>
 
@@ -34,14 +23,14 @@ export default function Footer() {
                 <h3 className="font-semibold text-base mb-4">Our Details</h3>
                 <ul className="space-y-2">
                   <li>
-                    <a href="/shipping" className="hover:underline">
+                    <Link href="/contact" className="hover:underline">
                       Contact Us
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="/returns" className="hover:underline">
+                    <Link href="/about" className="hover:underline">
                       About Us
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
