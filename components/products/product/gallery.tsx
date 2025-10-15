@@ -48,7 +48,7 @@ export default function GalleryProduct({
           </button>
         ))}
       </div>
-      <div className="sm:w-[550px] order-1 bg-yellow-600 sm:order-2 sm:h-[550px] flex justify-center max-w-full">
+      <div className="sm:w-[550px] order-1 sm:order-2 sm:h-[550px] flex justify-center max-w-full">
         <picture>
           <img
             src={images[current]}
