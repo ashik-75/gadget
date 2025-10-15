@@ -15,7 +15,7 @@ export default function ProductSlug({
   return (
     <div className="relative group flex flex-col gap-5 sm:flex-row group p-8">
       <GalleryProduct product={product} />
-      <div className="px-10">
+      <div className="sm:px-10">
         <h1 className="text-3xl">{product.name}</h1>
         <div className="flex flex-wrap gap-2 pt-3">
           {product.categories?.map((category) => (
