@@ -16,21 +16,21 @@ import { draftMode } from 'next/headers'
 import NextTopLoader from 'nextjs-toploader'
 
 export const metadata: Metadata = {
-  title: '366 Clothing | Moda para todos',
-  description: '366 Clothing, where youll find the best outfits for you',
+  title: 'Shop for electronic products and accessories',
+  description: 'Shop for electronic products and accessories',
   keywords: [
-    'moda',
-    'ropa',
-    'outfits',
-    'tendencias',
+    'electronics',
+    'tech',
+    'Gadget',
+    'trens',
     'fashion',
-    'clothing',
-    'trend',
-    'style'
+    'accessories',
+    'Devise',
+    'Mobile'
   ],
   authors: {
-    name: 'David Bendezú (Daustinn)',
-    url: 'https://daustinn.com'
+    name: 'Ashik Rana',
+    url: 'https://example.com'
   }
 }
 
