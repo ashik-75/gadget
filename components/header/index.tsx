@@ -20,8 +20,10 @@ async function Header() {
             />
           </Link>
         </nav>
-        <CenterHeader />
-        <RightHeader />
+        <div className="flex gap-5 items-center">
+          <CenterHeader />
+          <RightHeader />
+        </div>
       </div>
     </header>
   )

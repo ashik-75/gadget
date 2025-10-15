@@ -19,7 +19,7 @@ export default function ProductCategories({
   }
 
   return (
-    <ul className="flex gap-5 text-black text-sm flex-wrap">
+    <ul className="flex gap-2 text-black text-sm flex-wrap">
       {categories.map((category) => (
         <li key={category._id}>
           <Link
@@ -28,7 +28,7 @@ export default function ProductCategories({
               activeCategory === category.slug?.current ? '' : undefined
             }
             onClick={() => handleCategoryClick(category.slug?.current)}
-            className="group shadow-md border flex items-center text-nowrap px-5 py-3 bg-zinc-100 data-[selected]:bg-yellow-400"
+            className="group rounded-full border flex flex-wrap items-center text-nowrap py-1 text-xs px-4 bg-zinc-100 data-[selected]:text-white data-[selected]:bg-yellow-500"
           >
             {category.title}
           </Link>

@@ -15,7 +15,7 @@ export default function User() {
         />
       ) : (
         <SignInButton mode="modal">
-          <button className="border text-sm flex gap-1 items-center p-1 px-2 rounded-sm">
+          <button className="flex gap-1 items-center p-1 px-2 text-sm rounded-sm">
             <BsPerson />
             Sign In
           </button>

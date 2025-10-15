@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import '../globals.css'
 
+import Categories from '@/components/categories'
 import DrafModeDisable from '@/components/draft-mode/disable'
 import Footer from '@/components/footer'
 import Header from '@/components/header'
@@ -13,7 +14,6 @@ import { Toaster } from 'anni'
 import { VisualEditing } from 'next-sanity'
 import { draftMode } from 'next/headers'
 import NextTopLoader from 'nextjs-toploader'
-import Categories from './(all)/@categories'
 
 export const metadata: Metadata = {
   title: '366 Clothing | Moda para todos',

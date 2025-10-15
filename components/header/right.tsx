@@ -9,7 +9,7 @@ export default function RightHeader() {
   const items = useCartStore((state) => state.items)
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0)
   return (
-    <nav className="flex items-center  gap-8 justify-end">
+    <nav className="flex items-center shrink-0 gap-2  sm:gap-8 justify-end">
       <Link className="flex relative" href="/cart" title="Mi carrito de compra">
         <GiShoppingCart size={25} />
         {totalItems > 0 && (
