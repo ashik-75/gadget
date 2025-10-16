@@ -45,7 +45,7 @@ export default function AddButtonProduct({ product }: Props) {
           }
         )
       }}
-      className="py-3 flex justify-center gap-3 hover:scale-110 transition-transform disabled:opacity-50 disabled:pointer-events-none px-5 w-full bg-lime-950 rounded-sm text-lime-50"
+      className="py-1 shrink-0 flex justify-center gap-3 hover:scale-105 transition-transform disabled:opacity-50 disabled:pointer-events-none px-2 bg-lime-950 rounded-sm text-lime-50"
     >
       <HiPlus size={25} />
       {outOfStock ? 'Out of stock' : 'Add to cart'}

@@ -13,7 +13,8 @@ interface ShippingAddress {
 interface OrderData {
   orderNumber: string
   customerName: string
-  customerEmail: string
+  customerEmail?: string
+  customerPhone?: string
   clerkUserId: string
   shippingAddress: ShippingAddress
   products: Array<{
@@ -28,6 +29,7 @@ interface OrderData {
   currency: string
   status: string
   orderDate: string
+  paymentMethod: string
 }
 
 // Explicitly type the return value

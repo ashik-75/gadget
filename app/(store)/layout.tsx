@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import '../globals.css'
 
-import Categories from '@/components/categories'
 import DrafModeDisable from '@/components/draft-mode/disable'
 import Footer from '@/components/footer'
 import Header from '@/components/header'
@@ -90,8 +89,8 @@ export default async function RootLayout({
             )}
             <Toaster />
             <Header />
-            <Categories />
-            <main className="min-h-[600px]">{children}</main>
+
+            <main className="min-h-[700px]">{children}</main>
             <Footer />
             <SanityLive />
           </ThemeProvider>

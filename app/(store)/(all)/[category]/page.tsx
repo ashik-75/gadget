@@ -3,7 +3,6 @@ import { AskingQuestion } from '@/icons/asking-question'
 import { GET_PRODUCTS_QUERYResult } from '@/sanity.types'
 import { getProducts } from '@/sanity/lib/products/getProducts'
 import { Suspense } from 'react'
-// import LeftCollection from './@sidebar'
 
 export default async function ProductsPage({
   params
@@ -19,7 +18,7 @@ export default async function ProductsPage({
   })) as GET_PRODUCTS_QUERYResult
 
   return (
-    <div className="w-full min-h-[600px] max-w-7xl mx-auto p-5 sm:p-10 space-y-5">
+    <div className="w-full min-h-[600px] max-w-7xl mx-auto p-5 space-y-5">
       <section className="w-full">
         <Suspense key={`${category}`}>
           {products.length ? (

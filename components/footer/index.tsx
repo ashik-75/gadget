@@ -32,6 +32,11 @@ export default function Footer() {
                       About Us
                     </Link>
                   </li>
+                  <li>
+                    <Link href="/track-order" className="hover:underline">
+                      Track Order
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </div>

@@ -3,6 +3,7 @@ import { GET_PRODUCT_QUERYResult } from '@/sanity.types'
 import { PortableText } from 'next-sanity'
 import Link from 'next/link'
 import AddButtonProduct from './add-button'
+import BuyNowProduct from './buy-now'
 import GalleryProduct from './gallery'
 
 export default function ProductSlug({
@@ -31,8 +32,9 @@ export default function ProductSlug({
         <p className="py-4 text-3xl font-bold">
           {formatPriceBDT(product.price)}
         </p>
-        <div>
-          <AddButtonProduct product={product} />
+        <div className="flex gap-2 items-center">
+          <AddButtonProduct product={product} /> {'/'}
+          <BuyNowProduct product={product} />
         </div>
         <div className="prose pt-10">
           {Array.isArray(product.description) && (

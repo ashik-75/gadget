@@ -16,7 +16,7 @@ export default function ProductCard({
       className="relative bg-white rounded-md shadow-sm flex data-[exhaustive]:opacity-60 data-[exhaustive]:grayscale flex-col group overflow-hidden"
     >
       <Link
-        href={`/${product.categories?.at(0)?.slug?.current}/${product.slug?.current}`}
+        href={`/products/${product.slug?.current}`}
         className="absolute inset-0 z-[1]"
       />
       <div className="overflow-hidden relative aspect-[6/5]">

@@ -15,7 +15,7 @@ export default async function ProductSlugPage({
   }>
 }) {
   const { slug } = await params
-  console.log({ slug })
+
   const product = (await getProduct(slug)) as GET_PRODUCT_QUERYResult
   return (
     <div className="max-w-7xl mx-auto w-full">

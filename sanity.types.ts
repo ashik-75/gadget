@@ -90,12 +90,18 @@ export type Order = {
   _updatedAt: string
   _rev: string
   orderNumber?: string
-  stripeCheckoutSessionId?: string
-  stripeCustomerId?: string
   clerkUserId?: string
   customerName?: string
   customerEmail?: string
-  stripePaymentIntentId?: string
+  customerPhone?: string
+  paymentMethod?: string
+  shippingAddress?: {
+    name?: string
+    phone?: string
+    district?: string
+    upazila?: string
+    street?: string
+  }
   products?: Array<{
     product?: {
       _ref: string
@@ -174,69 +180,7 @@ export type Product = {
     _key: string
     [internalGroqTypeReferenceTo]?: 'category'
   }>
-  collections?: Array<{
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    _key: string
-    [internalGroqTypeReferenceTo]?: 'collection'
-  }>
   stock?: number
-}
-
-export type Collection = {
-  _id: string
-  _type: 'collection'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  title?: string
-  slug?: Slug
-  backgroundColour?: SimplerColor
-  description?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>
-          text?: string
-          _type: 'span'
-          _key: string
-        }>
-        style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'blockquote'
-        listItem?: 'bullet'
-        markDefs?: Array<{
-          href?: string
-          _type: 'link'
-          _key: string
-        }>
-        level?: number
-        _type: 'block'
-        _key: string
-      }
-    | {
-        asset?: {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-        }
-        hotspot?: SanityImageHotspot
-        crop?: SanityImageCrop
-        alt?: string
-        _type: 'image'
-        _key: string
-      }
-  >
-  coverPhoto?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
 }
 
 export type Category = {
@@ -375,7 +319,6 @@ export type AllSanitySchemaTypes =
   | Sale
   | Order
   | Product
-  | Collection
   | Category
   | Slug
   | BlockContent
@@ -421,135 +364,35 @@ export type ALL_POPULAR_CATEGORIES_QUERYResult = Array<{
 // Source: ./sanity/lib/collections/getAllCollections.ts
 // Variable: ALL_COLLECTIONS_QUERY
 // Query: *[_type == "collection"] | order(_createdAt desc)
-export type ALL_COLLECTIONS_QUERYResult = Array<{
-  _id: string
-  _type: 'collection'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  title?: string
-  slug?: Slug
-  backgroundColour?: SimplerColor
-  description?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>
-          text?: string
-          _type: 'span'
-          _key: string
-        }>
-        style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'normal'
-        listItem?: 'bullet'
-        markDefs?: Array<{
-          href?: string
-          _type: 'link'
-          _key: string
-        }>
-        level?: number
-        _type: 'block'
-        _key: string
-      }
-    | {
-        asset?: {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-        }
-        hotspot?: SanityImageHotspot
-        crop?: SanityImageCrop
-        alt?: string
-        _type: 'image'
-        _key: string
-      }
-  >
-  coverPhoto?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
-}>
+export type ALL_COLLECTIONS_QUERYResult = Array<never>
 
 // Source: ./sanity/lib/collections/getFourCollections.ts
 // Variable: FOUR_COLLECTIONS_QUERY
 // Query: *[_type == "collection"] | order(_editedAt asc)[0..3]
-export type FOUR_COLLECTIONS_QUERYResult = Array<{
-  _id: string
-  _type: 'collection'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  title?: string
-  slug?: Slug
-  backgroundColour?: SimplerColor
-  description?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>
-          text?: string
-          _type: 'span'
-          _key: string
-        }>
-        style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'normal'
-        listItem?: 'bullet'
-        markDefs?: Array<{
-          href?: string
-          _type: 'link'
-          _key: string
-        }>
-        level?: number
-        _type: 'block'
-        _key: string
-      }
-    | {
-        asset?: {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-        }
-        hotspot?: SanityImageHotspot
-        crop?: SanityImageCrop
-        alt?: string
-        _type: 'image'
-        _key: string
-      }
-  >
-  coverPhoto?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
-}>
+export type FOUR_COLLECTIONS_QUERYResult = Array<never>
 
-// Source: ./sanity/lib/orders/getMyOrders.ts
-// Variable: GET_MY_ORDERS_QUERY
-// Query: *[_type == "order" && clerkUserId == $userId] | order(_createdAt desc) {            ...,            products[]{                ...,                product->            }        }
-export type GET_MY_ORDERS_QUERYResult = Array<{
+// Source: ./sanity/lib/orders/getMyOrderByContact.ts
+// Variable: GET_MY_ORDERS_QUERY_BY_CONTACT
+// Query: *[_type == "order" && (        customerEmail == $customerEmail || customerPhone == $customerPhone      )] | order(_createdAt desc) {        ...,        products[] {          ...,          product->        }      }
+export type GET_MY_ORDERS_QUERY_BY_CONTACTResult = Array<{
   _id: string
   _type: 'order'
   _createdAt: string
   _updatedAt: string
   _rev: string
   orderNumber?: string
-  stripeCheckoutSessionId?: string
-  stripeCustomerId?: string
   clerkUserId?: string
   customerName?: string
   customerEmail?: string
-  stripePaymentIntentId?: string
+  customerPhone?: string
+  paymentMethod?: string
+  shippingAddress?: {
+    name?: string
+    phone?: string
+    district?: string
+    upazila?: string
+    street?: string
+  }
   products: Array<{
     product: {
       _id: string
@@ -612,12 +455,101 @@ export type GET_MY_ORDERS_QUERYResult = Array<{
         _key: string
         [internalGroqTypeReferenceTo]?: 'category'
       }>
-      collections?: Array<{
+      stock?: number
+    } | null
+    quantity?: number
+    _key: string
+  }> | null
+  totalPrice?: number
+  currency?: string
+  ammountDiscount?: number
+  status?: 'cancelled' | 'delivered' | 'paid' | 'pending' | 'shipped'
+  orderDate?: string
+}>
+
+// Source: ./sanity/lib/orders/getMyOrders.ts
+// Variable: GET_MY_ORDERS_QUERY
+// Query: *[_type == "order" && clerkUserId == $userId] | order(_createdAt desc) {            ...,            products[]{                ...,                product->            }        }
+export type GET_MY_ORDERS_QUERYResult = Array<{
+  _id: string
+  _type: 'order'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  orderNumber?: string
+  clerkUserId?: string
+  customerName?: string
+  customerEmail?: string
+  customerPhone?: string
+  paymentMethod?: string
+  shippingAddress?: {
+    name?: string
+    phone?: string
+    district?: string
+    upazila?: string
+    street?: string
+  }
+  products: Array<{
+    product: {
+      _id: string
+      _type: 'product'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      name?: string
+      slug?: Slug
+      images?: Array<{
+        asset?: {
+          _ref: string
+          _type: 'reference'
+          _weak?: boolean
+          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+        }
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+        _key: string
+      }>
+      description?: Array<
+        | {
+            children?: Array<{
+              marks?: Array<string>
+              text?: string
+              _type: 'span'
+              _key: string
+            }>
+            style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'normal'
+            listItem?: 'bullet'
+            markDefs?: Array<{
+              href?: string
+              _type: 'link'
+              _key: string
+            }>
+            level?: number
+            _type: 'block'
+            _key: string
+          }
+        | {
+            asset?: {
+              _ref: string
+              _type: 'reference'
+              _weak?: boolean
+              [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+            }
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            alt?: string
+            _type: 'image'
+            _key: string
+          }
+      >
+      price?: number
+      categories?: Array<{
         _ref: string
         _type: 'reference'
         _weak?: boolean
         _key: string
-        [internalGroqTypeReferenceTo]?: 'collection'
+        [internalGroqTypeReferenceTo]?: 'category'
       }>
       stock?: number
     } | null
@@ -839,13 +771,6 @@ export type TEN_PRODUCTS_QUERYResult = Array<{
     _key: string
     [internalGroqTypeReferenceTo]?: 'category'
   }>
-  collections?: Array<{
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    _key: string
-    [internalGroqTypeReferenceTo]?: 'collection'
-  }>
   stock?: number
 }>
 
@@ -871,6 +796,7 @@ declare module '@sanity/client' {
     '\n            *[_type == "category" && visible == true] | order(_createdAt asc)[0..10]\n        ': ALL_POPULAR_CATEGORIES_QUERYResult
     '\n            *[_type == "collection"] | order(_createdAt desc)\n        ': ALL_COLLECTIONS_QUERYResult
     '\n              *[_type == "collection"] | order(_editedAt asc)[0..3]\n          ': FOUR_COLLECTIONS_QUERYResult
+    '\n      *[_type == "order" && (\n        customerEmail == $customerEmail || customerPhone == $customerPhone\n      )] | order(_createdAt desc) {\n        ...,\n        products[] {\n          ...,\n          product->\n        }\n      }\n    ': GET_MY_ORDERS_QUERY_BY_CONTACTResult
     '\n        *[_type == "order" && clerkUserId == $userId] | order(_createdAt desc) {\n            ...,\n            products[]{\n                ...,\n                product->\n            }\n        }\n    ': GET_MY_ORDERS_QUERYResult
     '\n    *[_type == "product" && slug.current == $slug][0]{\n      _id,\n      name,\n      slug,\n      price,\n      stock,\n      description,\n      images,\n      categories[]->{\n        _id,\n        slug,\n        title\n      }\n    }\n': GET_PRODUCT_QUERYResult
     '\n    *[_type == "product"]{\n      _id,\n      name,\n      slug,\n      images,\n      price,\n      stock,\n      description,\n      categories[]->{\n        slug,\n        title,\n      }\n    } | order(name asc)\n  ': GET_PRODUCTS_QUERYResult

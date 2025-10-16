@@ -4,9 +4,8 @@ import { AskingQuestion } from '@/icons/asking-question'
 import { formatPriceBDT } from '@/lib/utils'
 import { urlFor } from '@/sanity/lib/image'
 import useCartStore from '@/stores/cart.store'
-import { SignInButton, useUser } from '@clerk/nextjs'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import { BsArrowRight, BsPlus } from 'react-icons/bs'
 import { HiMinus } from 'react-icons/hi2'
 
@@ -25,9 +24,16 @@ export default function CartList() {
   const removeItem = useCartStore((state) => state.removeItem)
   const getTotalPrice = useCartStore((state) => state.getTotalPrice)
   const clearCart = useCartStore((state) => state.clearCart)
-  const [paymentMethod, setPaymentMethod] = React.useState('')
 
   const [isLoading, setIsLoading] = React.useState(false)
+  const [paymentMethod, setPaymentMethod] = useState('')
+  const [billingAddress, setBillingAddress] = React.useState<ShippingAddress>({
+    name: '',
+    phone: '',
+    district: '',
+    upazila: '',
+    street: ''
+  })
   const [shippingAddress, setShippingAddress] = React.useState<ShippingAddress>(
     {
       name: '',
@@ -38,8 +44,6 @@ export default function CartList() {
     }
   )
 
-  const { isSignedIn, user } = useUser()
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setShippingAddress((prev) => ({
@@ -48,18 +52,23 @@ export default function CartList() {
     }))
   }
 
+  const handleBillingInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setBillingAddress((prev) => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
   // In your CartList component
   const handleCheckout = async () => {
-    if (!isSignedIn) return
-
     // Validate shipping address
     if (
       !shippingAddress.name ||
       !shippingAddress.phone ||
       !shippingAddress.district ||
       !shippingAddress.upazila ||
-      !shippingAddress.street ||
-      !paymentMethod
+      !shippingAddress.street
     ) {
       alert('Please fill in all shipping address fields')
       return
@@ -72,10 +81,9 @@ export default function CartList() {
       const orderNumber = crypto.randomUUID()
       const orderData = {
         orderNumber: orderNumber,
-        customerName: user.fullName ?? 'Unknown',
-        customerEmail: user.primaryEmailAddress?.emailAddress ?? 'Unknown',
-        customerPhone: shippingAddress.phone,
-        clerkUserId: user.id,
+        customerName: billingAddress.name ?? 'Unknown',
+        customerPhone: billingAddress?.phone ?? 'Unknown',
+        clerkUserId: 'unknown',
         shippingAddress: shippingAddress,
         products: items.map((item) => ({
           _key: crypto.randomUUID(),
@@ -89,7 +97,7 @@ export default function CartList() {
         currency: 'BDT',
         status: 'pending',
         orderDate: new Date().toISOString(),
-        paymentMethod
+        paymentMethod: paymentMethod || 'cod'
       }
 
       // Dynamic import of the server action
@@ -210,128 +218,145 @@ export default function CartList() {
             <p>{formatPriceBDT(getTotalPrice())}</p>
           </div>
 
-          {isSignedIn && (
-            <>
-              <div className="mt-3">
-                <h3 className="font-medium mb-3">Shipping Address</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs mb-1">Name</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={shippingAddress.name}
-                      onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 bg-white outline-none rounded text-sm"
-                      placeholder="Full Name"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs mb-1">Phone</label>
-                    <input
-                      type="text"
-                      name="phone"
-                      value={shippingAddress.phone}
-                      onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 bg-white outline-none rounded text-sm"
-                      placeholder="Phone Number"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs mb-1">District</label>
-                    <input
-                      type="text"
-                      name="district"
-                      value={shippingAddress.district}
-                      onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 bg-white outline-none rounded text-sm"
-                      placeholder="District"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs mb-1">Upazila</label>
-                    <input
-                      type="text"
-                      name="upazila"
-                      value={shippingAddress.upazila}
-                      onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 bg-white outline-none rounded text-sm"
-                      placeholder="Upazila"
-                    />
-                  </div>
-
-                  <div className="md:col-span-2">
-                    <label className="block text-xs mb-1">Street Address</label>
-                    <input
-                      type="text"
-                      name="street"
-                      value={shippingAddress.street}
-                      onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 bg-white outline-none rounded text-sm"
-                      placeholder="Street Address"
-                    />
-                  </div>
-                </div>
+          <div className="mt-3">
+            <h3 className="font-medium mb-3">Billing Address</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs mb-1">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={billingAddress.name}
+                  onChange={handleBillingInput}
+                  className="w-full p-2 border border-gray-300 bg-white outline-none rounded text-sm"
+                  placeholder="Full Name"
+                />
               </div>
 
-              {/* Payment Method Section */}
-              <div className="mt-6">
-                <h3 className="font-medium mb-3">Payment Method</h3>
-                <div className="flex flex-col md:flex-row gap-4">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="cod"
-                      checked={paymentMethod === 'cod'}
-                      onChange={(e) => setPaymentMethod(e.target.value)}
-                      className="appearance-none w-2 h-2 rounded-full border border-gray-400 checked:bg-black checked:ring-2 checked:ring-offset-2 checked:ring-black checked:border-transparent transition-colors cursor-pointer bg-white"
-                    />
-
-                    <span className="text-sm">Cash on Delivery</span>
-                  </label>
-
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="online"
-                      checked={paymentMethod === 'online'}
-                      onChange={(e) => setPaymentMethod(e.target.value)}
-                      className="appearance-none w-2 h-2 rounded-full border border-gray-400 checked:bg-black checked:ring-2 checked:ring-offset-2 checked:ring-black checked:border-transparent transition-colors cursor-pointer bg-white"
-                    />
-                    <span className="text-sm">Online Payment</span>
-                  </label>
-                </div>
+              <div>
+                <label className="block text-xs mb-1">Phone</label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={billingAddress.phone}
+                  onChange={handleBillingInput}
+                  className="w-full p-2 border border-gray-300 bg-white outline-none rounded text-sm"
+                  placeholder="Phone Number"
+                />
               </div>
-            </>
-          )}
+            </div>
+          </div>
 
-          {isSignedIn ? (
-            <button
-              onClick={handleCheckout}
-              disabled={isLoading}
-              className="w-full disabled:justify-center disabled:opacity-50 disabled:grayscale flex justify-between gap-2 items-center p-3 px-4  transition-all rounded-sm bg-lime-950 text-lime-50 mt-5"
-            >
-              {isLoading ? (
-                <>Processing...</>
-              ) : (
-                <>
-                  Place Order
-                  <BsArrowRight size={20} />
-                </>
-              )}
-            </button>
-          ) : (
-            <SignInButton mode="modal">
-              <button className="w-full disabled:opacity-50 disabled:grayscale flex justify-center gap-2 items-center p-3 px-4  transition-all rounded-sm bg-lime-950 text-lime-50 mt-5">
-                Sign In
-              </button>
-            </SignInButton>
-          )}
+          <div className="mt-3">
+            <h3 className="font-medium mb-3">Shipping Address</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs mb-1">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={shippingAddress.name}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 bg-white outline-none rounded text-sm"
+                  placeholder="Full Name"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs mb-1">Phone</label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={shippingAddress.phone}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 bg-white outline-none rounded text-sm"
+                  placeholder="Phone Number"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs mb-1">District</label>
+                <input
+                  type="text"
+                  name="district"
+                  value={shippingAddress.district}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 bg-white outline-none rounded text-sm"
+                  placeholder="District"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs mb-1">Upazila</label>
+                <input
+                  type="text"
+                  name="upazila"
+                  value={shippingAddress.upazila}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 bg-white outline-none rounded text-sm"
+                  placeholder="Upazila"
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-xs mb-1">Street Address</label>
+                <input
+                  type="text"
+                  name="street"
+                  value={shippingAddress.street}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 bg-white outline-none rounded text-sm"
+                  placeholder="Street Address"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Payment Method Section */}
+          <div className="mt-6">
+            <h3 className="font-medium mb-3">Payment Method</h3>
+            <div className="flex flex-col md:flex-row gap-4">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="cod"
+                  checked={paymentMethod === 'cod'}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                  className="appearance-none w-2 h-2 rounded-full border border-gray-400 checked:bg-black checked:ring-2 checked:ring-offset-2 checked:ring-black checked:border-transparent transition-colors cursor-pointer bg-white"
+                />
+
+                <span className="text-sm">Cash on Delivery</span>
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="online"
+                  checked={paymentMethod === 'online'}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                  className="appearance-none w-2 h-2 rounded-full border border-gray-400 checked:bg-black checked:ring-2 checked:ring-offset-2 checked:ring-black checked:border-transparent transition-colors cursor-pointer bg-white"
+                />
+                <span className="text-sm">Online Payment</span>
+              </label>
+            </div>
+          </div>
+
+          <button
+            onClick={handleCheckout}
+            disabled={isLoading}
+            className="w-full disabled:justify-center disabled:opacity-50 disabled:grayscale flex justify-between gap-2 items-center p-3 px-4 transition-all rounded-sm bg-lime-950 text-lime-50 mt-5"
+          >
+            {isLoading ? (
+              <>Processing...</>
+            ) : (
+              <>
+                Place Order
+                <BsArrowRight size={20} />
+              </>
+            )}
+          </button>
         </footer>
       )}
     </div>

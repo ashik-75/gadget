@@ -28,8 +28,20 @@ export const orderType = defineType({
     defineField({
       name: 'customerEmail',
       title: 'Customer Email',
+      type: 'string'
+      // validation: (Rule) => Rule.required().email()
+    }),
+    defineField({
+      name: 'customerPhone',
+      title: 'Customer Phone',
+      type: 'string'
+      // validation: (Rule) => Rule.required().email()
+    }),
+    defineField({
+      name: 'paymentMethod',
+      title: 'Payment Method',
       type: 'string',
-      validation: (Rule) => Rule.required().email()
+      validation: (Rule) => Rule.required()
     }),
     defineField({
       name: 'shippingAddress',
