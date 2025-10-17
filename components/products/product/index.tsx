@@ -14,7 +14,7 @@ export default function ProductSlug({
   if (!product) return null
 
   return (
-    <div className="relative group flex flex-col gap-5 sm:flex-row group p-8">
+    <div className="relative group flex flex-col gap-5 sm:flex-row group p-5">
       <GalleryProduct product={product} />
       <div className="sm:px-10">
         <h1 className="text-3xl">{product.name}</h1>
