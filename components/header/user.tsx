@@ -6,21 +6,22 @@ import { BsPerson } from 'react-icons/bs'
 export default function User() {
   const { user } = useUser()
   return (
-    <ClerkLoaded>
-      {user ? (
-        <UserButton
-          appearance={{
-            baseTheme: neobrutalism
-          }}
-        />
-      ) : (
-        <SignInButton mode="modal">
-          <button className="flex gap-1 items-center p-1 px-2 text-sm rounded-sm">
-            <BsPerson />
-            Sign In
-          </button>
-        </SignInButton>
-      )}
-    </ClerkLoaded>
+    <div className="hidden sm:block">
+      <ClerkLoaded>
+        {user ? (
+          <UserButton
+            appearance={{
+              baseTheme: neobrutalism
+            }}
+          />
+        ) : (
+          <SignInButton mode="modal">
+            <button className="flex gap-1 items-center p-1 px-2 text-sm rounded-sm">
+              <BsPerson size={25} />
+            </button>
+          </SignInButton>
+        )}
+      </ClerkLoaded>
+    </div>
   )
 }

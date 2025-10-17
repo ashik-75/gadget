@@ -32,8 +32,8 @@ export default function ProductSlug({
         <p className="py-4 text-3xl font-bold">
           {formatPriceBDT(product.price)}
         </p>
-        <div className="flex gap-2 items-center">
-          <AddButtonProduct product={product} /> {'/'}
+        <div className="space-y-2 w-[300px]">
+          <AddButtonProduct product={product} />
           <BuyNowProduct product={product} />
         </div>
         <div className="prose pt-10">

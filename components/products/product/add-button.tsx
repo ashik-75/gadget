@@ -4,7 +4,6 @@ import { GET_PRODUCT_QUERYResult, Product } from '@/sanity.types'
 import { urlFor } from '@/sanity/lib/image'
 import useCartStore from '@/stores/cart.store'
 import { toast } from 'anni'
-import { HiPlus } from 'react-icons/hi2'
 
 type Props = {
   product: GET_PRODUCT_QUERYResult
@@ -45,9 +44,8 @@ export default function AddButtonProduct({ product }: Props) {
           }
         )
       }}
-      className="py-1 shrink-0 flex justify-center gap-3 hover:scale-105 transition-transform disabled:opacity-50 disabled:pointer-events-none px-2 bg-lime-950 rounded-sm text-lime-50"
+      className="py-2 font-black shrink-0 flex w-full justify-center gap-3 hover:scale-105 transition-transform disabled:opacity-50 disabled:pointer-events-none px-2 border border-zinc-600"
     >
-      <HiPlus size={25} />
       {outOfStock ? 'Out of stock' : 'Add to cart'}
     </button>
   )

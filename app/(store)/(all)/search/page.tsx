@@ -3,26 +3,25 @@ import { AskingQuestion } from '@/icons/asking-question'
 import { GET_PRODUCTS_QUERYResult } from '@/sanity.types'
 import { getProducts } from '@/sanity/lib/products/getProducts'
 import { Suspense } from 'react'
-// import LeftCollection from './@sidebar'
 
-export default async function ProductsPage({
-  params
-}: {
-  params: Promise<{
-    searchQ: string
-  }>
+type SearchParams = Promise<{ [key: string]: string | undefined }>
+
+export default async function ProductsPage(props: {
+  searchParams: SearchParams
 }) {
-  const { searchQ } = await params
+  // 🔹 Extract query param safely
+  const searchParams = await props.searchParams
+  const searchQ = searchParams?.type || ''
 
+  // 🔹 Fetch products
   const products = (await getProducts({
     q: searchQ
   })) as GET_PRODUCTS_QUERYResult
 
   return (
     <div className="w-full min-h-[600px] max-w-7xl mx-auto p-10 space-y-5">
-      {/* <LeftCollection /> */}
       <section className="w-full">
-        <Suspense key={`${searchQ}`}>
+        <Suspense key={searchQ}>
           {products.length ? (
             <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mx-auto">
               {products.map((product) => (

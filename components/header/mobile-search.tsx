@@ -22,21 +22,21 @@ export default function MobileSearch() {
     if (!searchInput.trim()) return
 
     const query = encodeURIComponent(searchInput.trim())
-    setOpen(false) // close drawer first
+    setOpen(false)
 
-    // Wait for close animation to finish, then navigate
+    // Wait for drawer close animation
     setTimeout(() => {
-      router.push(`/search-results/${query}`)
+      router.push(`/search?type=${query}`)
     }, 250)
   }
 
   return (
     <Drawer open={open} onOpenChange={setOpen} direction="bottom">
       <DrawerTrigger asChild>
-        <IoIosSearch size={20} className="sm:hidden" />
+        <IoIosSearch size={20} />
       </DrawerTrigger>
 
-      <DrawerContent className=" h-[200px] border-b bg-white shadow-md">
+      <DrawerContent className="h-[200px] border-b bg-white shadow-md">
         <div className="mx-auto w-full max-w-sm py-6">
           <DrawerTitle className="text-center text-base font-medium">
             Search Products

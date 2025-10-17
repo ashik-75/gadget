@@ -1,4 +1,3 @@
-import Categories from '@/components/categories'
 import React from 'react'
 
 export default function MyLayout({
@@ -8,7 +7,7 @@ export default function MyLayout({
 }>) {
   return (
     <div className="w-full flex flex-col">
-      <Categories />
+      {/* <Categories /> */}
       <div>{children}</div>
     </div>
   )
