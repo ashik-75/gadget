@@ -55,7 +55,7 @@ export default function MobileSidebar({
                   {categories.map((cat) => (
                     <li key={cat._id}>
                       <Link
-                        href={`/${cat.slug?.current}`}
+                        href={`/categories/${cat.slug?.current}`}
                         onClick={() => setOpen(false)}
                         className="block px-2 py-1 rounded hover:bg-neutral-100 text-sm"
                       >
