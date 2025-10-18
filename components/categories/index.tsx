@@ -20,7 +20,7 @@ export default function CategoryNavMenu({
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="text-black hidden sm:inline-block">
+          <NavigationMenuTrigger className="text-black hidden sm:flex">
             Categories
           </NavigationMenuTrigger>
           <NavigationMenuContent className="min-w-[220px] p-3">

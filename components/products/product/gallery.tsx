@@ -61,9 +61,9 @@ export default function GalleryProduct({
       : ' '
 
   return (
-    <div className="flex flex-col gap-5 sm:gap-14">
+    <div className="flex flex-col gap-5 sm:gap-1">
       {/* === Main Image === */}
-      <div className="sm:w-[550px] sm:h-[550px] flex justify-center max-w-full">
+      <div className="h-[350px] sm:w-[550px] sm:h-[550px]  overflow-hidden flex justify-center max-w-full">
         <picture>
           <img
             src={images[current]}
@@ -74,7 +74,7 @@ export default function GalleryProduct({
       </div>
 
       {/* === Thumbnail Carousel with responsive arrows === */}
-      <div className="relative w-full max-w-[550px] mx-auto px-5">
+      <div className="relative w-full max-w-[550px] mx-auto px-5 ">
         <Carousel
           opts={{
             align: 'start',
@@ -91,7 +91,7 @@ export default function GalleryProduct({
                 <button
                   onMouseEnter={() => setCurrent(index)}
                   data-current={current === index ? '' : undefined}
-                  className="w-full transition-colors data-[current]:outline-dotted outline-[2px] outline-offset-4 aspect-square overflow-hidden rounded-sm"
+                  className="w-full transition-colors data-[current]:border-2 data-[current]:border-yellow-800 data-[current]:border-dotted d aspect-square overflow-hidden p-1"
                 >
                   <Image
                     width={100}
@@ -108,8 +108,8 @@ export default function GalleryProduct({
           {/* === Arrows (conditionally visible) === */}
           {showArrows && (
             <>
-              <CarouselPrevious className="absolute -left-7 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow rounded-full w-6 h-6 flex items-center justify-center transition-opacity duration-300" />
-              <CarouselNext className="absolute -right-7 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow rounded-full w-6 h-6 flex items-center justify-center transition-opacity duration-300" />
+              <CarouselPrevious className="absolute -left-7 top-1/2 -translate-y-1/2 rounded-full w-6 h-6 flex items-center justify-center transition-opacity duration-300" />
+              <CarouselNext className="absolute -right-7 top-1/2 -translate-y-1/2  rounded-full w-6 h-6 flex items-center justify-center transition-opacity duration-300" />
             </>
           )}
         </Carousel>

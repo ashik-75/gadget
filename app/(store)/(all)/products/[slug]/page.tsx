@@ -2,6 +2,7 @@ import ProductSlug from '@/components/products/product'
 import RelatedProducts from '@/components/products/related'
 import { GET_PRODUCT_QUERYResult } from '@/sanity.types'
 import { getProduct } from '@/sanity/lib/products/getProduct'
+import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 
 export const dynamic = 'force-static'
@@ -17,6 +18,10 @@ export default async function ProductSlugPage({
   const { slug } = await params
 
   const product = (await getProduct(slug)) as GET_PRODUCT_QUERYResult
+
+  if (!product) {
+    return notFound()
+  }
   return (
     <div className="max-w-7xl mx-auto w-full">
       <ProductSlug product={product} />
