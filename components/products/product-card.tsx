@@ -10,6 +10,13 @@ export default function ProductCard({
   product: GET_PRODUCTS_QUERYResult[0]
 }) {
   const exhaustive = product.stock === 0
+
+  // ✅ Safe image handling (TS won't complain)
+  const hasImage = !!(product.images && product.images.length > 0)
+  const imageUrl = hasImage
+    ? urlFor(product.images![0]).width(300).height(300).url()
+    : '/image/placeholder_image.jpg' // fallback image in /public
+
   return (
     <div
       data-exhaustive={exhaustive ? 'true' : undefined}
@@ -21,29 +28,35 @@ export default function ProductCard({
       />
       <div className="overflow-hidden relative aspect-[6/5]">
         {exhaustive && (
-          <div className="w-full absolute bg-stone-500/80 grid place-content-center text-white text-xl h-full inset-0">
-            <p>Agotado</p>
+          <div className="absolute inset-0 z-10 bg-stone-500/80 grid place-content-center font-bold text-white text-2xl">
+            <p>Out Of Stock</p>
           </div>
         )}
+
         <Image
           width={300}
           height={300}
-          className="w-full group-hover:scale-110 transition-transform h-full object-cover"
-          src={urlFor(product.images![0]).width(300).height(300).url()}
+          className="w-full h-full object-cover transition-transform group-hover:scale-110"
+          src={imageUrl}
           alt={product.name || 'Product image'}
         />
       </div>
+
       <div className="overflow-ellipsis p-3 flex-grow gap-0 flex flex-col">
         <h2 className="text-ellipsis flex-grow line-clamp-1 text-sm font-medium">
           {product.name}
         </h2>
-        <Link
-          href={`/categories/${product.categories?.[0].slug?.current}`}
-          className="text-xs z-[1] relative text-lime-500 hover:underline"
-        >
-          {product.categories?.[0].title}
-        </Link>
-        <p className="font-bold ">{formatPriceBDT(product.price)}</p>
+
+        {product.categories?.[0] && (
+          <Link
+            href={`/categories/${product.categories?.[0].slug?.current}`}
+            className="text-xs z-[1] relative text-lime-500 hover:underline"
+          >
+            {product.categories?.[0].title}
+          </Link>
+        )}
+
+        <p className="font-bold">{formatPriceBDT(product.price)}</p>
       </div>
     </div>
   )

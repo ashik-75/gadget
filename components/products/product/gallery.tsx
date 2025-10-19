@@ -20,9 +20,15 @@ export default function GalleryProduct({
 }) {
   if (!product) return null
 
+  // ✅ Fallback placeholder
+  const placeholderImage = '/image/placeholder_image.jpg'
+
   const [images] = useState<string[]>(
-    product.images ? product.images.map((image) => urlFor(image).url()) : []
+    product.images && product.images.length > 0
+      ? product.images.map((image) => urlFor(image).url())
+      : [placeholderImage]
   )
+
   const [current, setCurrent] = useState(0)
   const [visibleThreshold, setVisibleThreshold] = useState(6)
   const [showArrows, setShowArrows] = useState(false)
@@ -50,36 +56,38 @@ export default function GalleryProduct({
   }, [images, visibleThreshold])
 
   const altSeo =
-    product.name + ' ' + product.description?.length
+    product.name +
+    ' ' +
+    (product.description?.length
       ? product.description
           ?.map((desc) =>
             desc._type === 'block'
               ? desc.children?.map((child) => child.text).join(' ')
-              : ' '
+              : ''
           )
           .join(' ')
-      : ' '
+      : '')
 
   return (
     <div className="flex flex-col gap-5 sm:gap-1">
       {/* === Main Image === */}
-      <div className="h-[350px] sm:w-[550px] sm:h-[550px]  overflow-hidden flex justify-center max-w-full">
+      <div className="h-[350px] sm:w-[550px] sm:h-[550px] overflow-hidden flex justify-center max-w-full">
         <picture>
           <img
             src={images[current]}
             className="h-full w-auto max-w-full max-h-full object-contain"
             alt={altSeo}
+            onError={(e) => {
+              e.currentTarget.src = placeholderImage
+            }}
           />
         </picture>
       </div>
 
-      {/* === Thumbnail Carousel with responsive arrows === */}
-      <div className="relative w-full max-w-[550px] mx-auto px-5 ">
+      {/* === Thumbnail Carousel === */}
+      <div className="relative w-full max-w-[550px] mx-auto px-5">
         <Carousel
-          opts={{
-            align: 'start',
-            slidesToScroll: 1
-          }}
+          opts={{ align: 'start', slidesToScroll: 1 }}
           className="w-full"
         >
           <CarouselContent className="-ml-2">
@@ -91,25 +99,27 @@ export default function GalleryProduct({
                 <button
                   onMouseEnter={() => setCurrent(index)}
                   data-current={current === index ? '' : undefined}
-                  className="w-full transition-colors data-[current]:border-2 data-[current]:border-yellow-800 data-[current]:border-dotted d aspect-square overflow-hidden p-1"
+                  className="w-full transition-colors data-[current]:border-2 data-[current]:border-yellow-800 data-[current]:border-dotted aspect-square overflow-hidden p-1"
                 >
                   <Image
                     width={100}
                     height={100}
                     src={image}
-                    alt={altSeo ?? product.name ?? ' '}
+                    alt={altSeo ?? product.name ?? ''}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.src = placeholderImage
+                    }}
                   />
                 </button>
               </CarouselItem>
             ))}
           </CarouselContent>
 
-          {/* === Arrows (conditionally visible) === */}
           {showArrows && (
             <>
-              <CarouselPrevious className="absolute -left-7 top-1/2 -translate-y-1/2 rounded-full w-6 h-6 flex items-center justify-center transition-opacity duration-300" />
-              <CarouselNext className="absolute -right-7 top-1/2 -translate-y-1/2  rounded-full w-6 h-6 flex items-center justify-center transition-opacity duration-300" />
+              <CarouselPrevious className="absolute -left-7 top-1/2 -translate-y-1/2 rounded-full w-6 h-6 flex items-center justify-center" />
+              <CarouselNext className="absolute -right-7 top-1/2 -translate-y-1/2 rounded-full w-6 h-6 flex items-center justify-center" />
             </>
           )}
         </Carousel>
