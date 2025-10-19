@@ -28,7 +28,7 @@ export default function ProductCard({
       />
       <div className="overflow-hidden relative aspect-[6/5]">
         {exhaustive && (
-          <div className="absolute inset-0 z-10 bg-stone-500/80 grid place-content-center font-bold text-white text-2xl">
+          <div className="absolute inset-0 z-10 bg-stone-500/80 grid place-content-center font-bold text-white text-xl sm:text-2xl">
             <p>Out Of Stock</p>
           </div>
         )}

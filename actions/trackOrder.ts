@@ -3,15 +3,18 @@
 import { getMyOrdersByContact } from '@/sanity/lib/orders/getMyOrderByContact'
 
 export async function trackOrderAction(formData: FormData) {
-  const email = formData.get('email')?.toString().trim()
+  const orderNumber = formData.get('orderNumber')?.toString().trim()
   const phone = formData.get('phone')?.toString().trim()
 
-  if (!email && !phone) {
-    return { success: false, message: 'Please provide email or phone number.' }
+  if (!orderNumber && !phone) {
+    return {
+      success: false,
+      message: 'Please provide orderNumber or phone number.'
+    }
   }
 
   try {
-    const orders = await getMyOrdersByContact(email, phone)
+    const orders = await getMyOrdersByContact(orderNumber, phone)
     if (orders.length === 0) {
       return {
         success: false,

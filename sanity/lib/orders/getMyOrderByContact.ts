@@ -7,17 +7,17 @@ import { sanityFetch } from '../live'
 // --- Paste the example types from Step 1 here if you don't have generated types ---------------------------------------------------
 
 export async function getMyOrdersByContact(
-  customerEmail?: string,
+  orderNumber?: string,
   customerPhone?: string
 ) {
   // 1. Add explicit return type
-  if (!customerEmail && !customerPhone) {
-    throw new Error('Either customerEmail or customerPhone is required')
+  if (!orderNumber && !customerPhone) {
+    throw new Error('Either orderNumber or customerPhone is required')
   }
 
   const GET_MY_ORDERS_QUERY_BY_CONTACT = defineQuery(`
       *[_type == "order" && (
-        customerEmail == $customerEmail || customerPhone == $customerPhone
+        orderNumber == $orderNumber || customerPhone == $customerPhone
       )] | order(_createdAt desc) {
         ...,
         products[] {
@@ -31,7 +31,7 @@ export async function getMyOrdersByContact(
     // 2. Use a type assertion to tell TypeScript the shape of the result
     const orders = await sanityFetch({
       query: GET_MY_ORDERS_QUERY_BY_CONTACT,
-      params: { customerEmail, customerPhone }
+      params: { orderNumber, customerPhone }
     })
 
     return orders.data || []

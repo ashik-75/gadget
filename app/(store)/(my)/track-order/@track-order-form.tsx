@@ -18,7 +18,6 @@ export default function TrackOrderForm() {
     setLoading(true)
 
     const formData = new FormData(e.currentTarget)
-
     const result = await trackOrderAction(formData)
     setLoading(false)
 
@@ -33,22 +32,25 @@ export default function TrackOrderForm() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
       <h1 className="text-2xl font-semibold mb-5 text-center">
-        Track Your Order
+        Track your order by order number or phone number
       </h1>
 
+      {/* ==== Form ==== */}
       <form onSubmit={handleSubmit} className="space-y-3 mb-8">
         <input
-          type="email"
-          name="email"
-          placeholder="Email (optional)"
+          type="text"
+          name="orderNumber"
+          placeholder="Order Number"
           className="w-full p-2 border border-gray-300 bg-white rounded text-sm outline-none"
         />
+
         <input
           type="text"
           name="phone"
           placeholder="Phone Number (optional)"
           className="w-full p-2 border border-gray-300 bg-white rounded text-sm outline-none"
         />
+
         <button
           type="submit"
           disabled={loading}
@@ -58,22 +60,25 @@ export default function TrackOrderForm() {
         </button>
       </form>
 
+      {/* ==== Error ==== */}
       {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
+      {/* ==== Orders ==== */}
       {orders.length > 0 && (
-        <div className="divide-y divide-gray-200 border">
+        <div className="divide-y divide-gray-200 border rounded-lg">
           {orders.map((order) => (
             <div key={order._id} className="p-4">
-              <p className="text-sm text-gray-500">
-                Order Number:{' '}
-                <span className="font-medium text-black">
-                  {order.orderNumber}
-                </span>
-              </p>
-              <p>Status: {order?.status}</p>
-              <p className="text-sm text-gray-500 mb-2">
-                Date: {new Date(order._createdAt).toLocaleDateString()}
-              </p>
+              <div className="space-y-2 mb-5">
+                <p>
+                  Order Number:{' '}
+                  <span className="font-medium text-black">
+                    {order.orderNumber}
+                  </span>
+                </p>
+                <p>Status: {order?.status}</p>
+                <p>Date: {new Date(order._createdAt).toLocaleDateString()}</p>
+                <p>Total price: {formatPriceBDT(order.totalPrice)}</p>
+              </div>
 
               <div className="bg-lime-500/30 p-3 rounded-xl">
                 {order.products?.map((p) => (
@@ -85,8 +90,12 @@ export default function TrackOrderForm() {
                       <picture>
                         <img
                           className="w-full h-full object-cover"
-                          src={urlFor(p.product!.images![0]).url()}
-                          alt={p.product?.name}
+                          src={
+                            p.product?.images?.[0]
+                              ? urlFor(p.product.images[0]).url()
+                              : '/placeholder.png'
+                          }
+                          alt={p.product?.name ?? 'Product image'}
                         />
                       </picture>
                     </div>
@@ -105,12 +114,6 @@ export default function TrackOrderForm() {
             </div>
           ))}
         </div>
-      )}
-
-      {!loading && orders.length === 0 && !error && (
-        <p className="text-center text-gray-500">
-          Enter email or phone to view your orders.
-        </p>
       )}
     </div>
   )
