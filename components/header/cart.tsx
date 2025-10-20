@@ -27,6 +27,7 @@ export default function CartSheet() {
   const [open, setOpen] = useState(false)
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0)
 
+  const placeholderImage = '/images/placeholder_image.jpg'
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
@@ -63,9 +64,13 @@ export default function CartSheet() {
                   <div className="w-[70px] h-[70px] overflow-hidden rounded">
                     <picture>
                       <img
-                        className="w-full h-full object-cover"
-                        src={urlFor(item.product.images![0]).url()}
-                        alt={item.product.name}
+                        className="w-24 h-24 object-cover rounded-md"
+                        src={
+                          item.product.images && item.product.images.length > 0
+                            ? urlFor(item.product.images[0]).url()
+                            : placeholderImage
+                        }
+                        alt={item.product.name || 'Product image'}
                       />
                     </picture>
                   </div>

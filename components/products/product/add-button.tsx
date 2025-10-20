@@ -25,11 +25,13 @@ export default function AddButtonProduct({ product }: Props) {
           <div className="flex items-center gap-2 p-2">
             {product.images && product.images?.length > 0 && (
               <div className="w-10 aspect-[10/8] rounded-md overflow-hidden">
-                <img
-                  src={urlFor(product.images[0]).url()}
-                  alt=""
-                  className="w-full h-full object-cover"
-                />
+                <picture>
+                  <img
+                    src={urlFor(product.images[0]).url()}
+                    alt={product.name || 'Product image'}
+                    className="w-full h-full object-cover"
+                  />
+                </picture>
               </div>
             )}
             <div>
