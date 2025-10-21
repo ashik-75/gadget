@@ -33,7 +33,7 @@ export default function MobileSearch() {
   return (
     <Drawer open={open} onOpenChange={setOpen} direction="bottom">
       <DrawerTrigger asChild>
-        <IoIosSearch size={20} />
+        <IoIosSearch className="cursor-pointer" size={20} />
       </DrawerTrigger>
 
       <DrawerContent className="h-[200px] border-b bg-white shadow-md">
