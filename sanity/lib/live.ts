@@ -18,3 +18,11 @@ export const { sanityFetch, SanityLive } = defineLive({
     revalidate: 0
   }
 })
+
+export const { sanityFetch: sanityCdnFetch } = defineLive({
+  client,
+
+  fetchOptions: {
+    revalidate: 60
+  }
+})

@@ -1,5 +1,5 @@
 import { defineQuery } from 'next-sanity'
-import { sanityFetch } from '../live'
+import { sanityCdnFetch } from '../live'
 
 export const getProducts = async ({
   q,
@@ -48,7 +48,7 @@ export const getProducts = async ({
   `)
 
   try {
-    const products = await sanityFetch({
+    const products = await sanityCdnFetch({
       query: GET_PRODUCTS_QUERY,
       params: {
         searchTerm: q ? `*${q}*` : null,
