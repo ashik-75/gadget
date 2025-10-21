@@ -1,6 +1,7 @@
 'use client'
 
 import { AskingQuestion } from '@/icons/asking-question'
+import { placeholderImage } from '@/lib/constant'
 import { formatPriceBDT } from '@/lib/utils'
 import { urlFor } from '@/sanity/lib/image'
 import useCartStore from '@/stores/cart.store'
@@ -280,7 +281,11 @@ export default function CheckoutOrder() {
                   <picture>
                     <img
                       className="w-full h-full object-cover"
-                      src={urlFor(item.product.images![0]).url()}
+                      src={
+                        item.product.images && item.product.images.length > 0
+                          ? urlFor(item.product.images[0]).url()
+                          : placeholderImage
+                      }
                       alt={item.product.name}
                     />
                   </picture>

@@ -7,6 +7,7 @@ import {
   SheetTitle,
   SheetTrigger
 } from '@/components/ui/sheet'
+import { placeholderImage } from '@/lib/constant'
 import { formatPriceBDT } from '@/lib/utils'
 import { urlFor } from '@/sanity/lib/image'
 import useCartStore from '@/stores/cart.store'
@@ -27,7 +28,6 @@ export default function CartSheet() {
   const [open, setOpen] = useState(false)
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0)
 
-  const placeholderImage = '/images/placeholder_image.jpg'
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
