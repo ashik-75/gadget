@@ -1,6 +1,7 @@
 'use client'
 
 import { trackOrderAction } from '@/actions/trackOrder'
+import { placeholderImage } from '@/lib/constant'
 import { formatPriceBDT } from '@/lib/utils'
 import { GET_MY_ORDERS_QUERY_BY_CONTACTResult } from '@/sanity.types'
 import { urlFor } from '@/sanity/lib/image'
@@ -93,7 +94,7 @@ export default function TrackOrderForm() {
                           src={
                             p.product?.images?.[0]
                               ? urlFor(p.product.images[0]).url()
-                              : '/placeholder.png'
+                              : placeholderImage
                           }
                           alt={p.product?.name ?? 'Product image'}
                         />
