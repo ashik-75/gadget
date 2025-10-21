@@ -2,8 +2,8 @@ import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <div className="bg-zinc-900">
-      <div className="text-sm max-w-7xl mx-auto text-white p-5">
+    <div className="bg-zinc-900 min-h-[250px] px-5 py-10">
+      <div className="text-sm max-w-7xl mx-auto text-white">
         <div className="max-w-7xl mx-auto w-full">
           <div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -27,11 +27,7 @@ export default function Footer() {
                       Contact Us
                     </Link>
                   </li>
-                  <li>
-                    <Link href="/about" className="hover:underline">
-                      About Us
-                    </Link>
-                  </li>
+
                   <li>
                     <Link href="/track-order" className="hover:underline">
                       Track Order

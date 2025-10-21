@@ -29,7 +29,7 @@ export default function ContactPage() {
               href="tel:+8801404431330"
               className="text-lg text-zinc-800 hover:text-zinc-600 transition-colors"
             >
-              014044 XXXXXXX
+              01712-150029
             </Link>
           </div>
         </div>

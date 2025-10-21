@@ -4,7 +4,6 @@ import { Category } from '@/sanity.types'
 import CartSheet from './cart'
 import MobileSearch from './mobile-search'
 import MobileSidebar from './mobile-sidebar'
-import User from './user'
 
 export default function RightHeader({
   categories
@@ -12,11 +11,11 @@ export default function RightHeader({
   categories: Category[]
 }) {
   return (
-    <nav className="flex items-center shrink-0 gap-2  sm:gap-8 justify-end">
+    <nav className="flex items-center shrink-0 gap-4  sm:gap-8 justify-end">
       <MobileSearch />
 
       <CartSheet />
-      <User />
+
       <MobileSidebar categories={categories} />
     </nav>
   )

@@ -20,7 +20,7 @@ export default function CategoryNavMenu({
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="text-black hidden sm:flex">
+          <NavigationMenuTrigger className="hidden sm:flex !bg-transparent text-white hover:!bg-transparent hover:!text-white data-[state=open]:!text-white  data-[state=open]:!bg-transparent">
             Categories
           </NavigationMenuTrigger>
           <NavigationMenuContent className="min-w-[220px] p-3">

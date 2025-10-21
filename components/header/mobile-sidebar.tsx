@@ -6,7 +6,6 @@ import {
   AccordionItem,
   AccordionTrigger
 } from '@/components/ui/accordion'
-import { Button } from '@/components/ui/button'
 import {
   Sheet,
   SheetContent,
@@ -16,9 +15,7 @@ import {
 } from '@/components/ui/sheet'
 import { Category } from '@/sanity.types'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { FaUserCircle } from 'react-icons/fa'
 import { GiHamburgerMenu } from 'react-icons/gi'
 
 export default function MobileSidebar({
@@ -27,13 +24,12 @@ export default function MobileSidebar({
   categories?: Category[]
 }) {
   const [open, setOpen] = useState(false)
-  const router = useRouter()
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <button title="Menu" className="hover:text-neutral-600 sm:hidden">
-          <GiHamburgerMenu size={24} />
+        <button title="Menu" className=" sm:hidden">
+          <GiHamburgerMenu size={20} />
         </button>
       </SheetTrigger>
 
@@ -72,44 +68,6 @@ export default function MobileSidebar({
             </AccordionContent>
           </AccordionItem>
 
-          {/* === Account === */}
-          <AccordionItem value="account">
-            <AccordionTrigger className="text-sm font-medium flex items-center gap-2">
-              <FaUserCircle size={18} /> Account
-            </AccordionTrigger>
-            <AccordionContent>
-              <ul className="space-y-2 mt-2">
-                <li>
-                  <Link
-                    href="/login"
-                    onClick={() => setOpen(false)}
-                    className="block px-2 py-1 rounded hover:bg-neutral-100 text-sm"
-                  >
-                    Login
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/register"
-                    onClick={() => setOpen(false)}
-                    className="block px-2 py-1 rounded hover:bg-neutral-100 text-sm"
-                  >
-                    Register
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/orders"
-                    onClick={() => setOpen(false)}
-                    className="block px-2 py-1 rounded hover:bg-neutral-100 text-sm"
-                  >
-                    My Orders
-                  </Link>
-                </li>
-              </ul>
-            </AccordionContent>
-          </AccordionItem>
-
           {/* === Extra Links === */}
           <AccordionItem value="info">
             <AccordionTrigger className="text-sm font-medium">
@@ -117,15 +75,6 @@ export default function MobileSidebar({
             </AccordionTrigger>
             <AccordionContent>
               <ul className="space-y-2 mt-2">
-                <li>
-                  <Link
-                    href="/about"
-                    onClick={() => setOpen(false)}
-                    className="block px-2 py-1 rounded hover:bg-neutral-100 text-sm"
-                  >
-                    About Us
-                  </Link>
-                </li>
                 <li>
                   <Link
                     href="/contact"
@@ -139,20 +88,6 @@ export default function MobileSidebar({
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-
-        {/* Optional footer */}
-        <div className="mt-auto pt-6 border-t">
-          <Button
-            variant="outline"
-            onClick={() => {
-              setOpen(false)
-              router.push('/help')
-            }}
-            className="w-full text-sm"
-          >
-            Help & Support
-          </Button>
-        </div>
       </SheetContent>
     </Sheet>
   )
