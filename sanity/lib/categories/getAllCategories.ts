@@ -1,5 +1,5 @@
 import { defineQuery } from 'next-sanity'
-import { sanityFetch } from '../live'
+import { sanityCdnFetch } from '../live'
 
 export const getAllCategories = async () => {
   const ALL_CATEGORIES_QUERY = defineQuery(`
@@ -7,7 +7,7 @@ export const getAllCategories = async () => {
         `)
 
   try {
-    const categories = await sanityFetch({
+    const categories = await sanityCdnFetch({
       query: ALL_CATEGORIES_QUERY
     })
 

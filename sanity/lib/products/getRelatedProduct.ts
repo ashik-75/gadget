@@ -1,5 +1,5 @@
 import { defineQuery } from 'next-sanity'
-import { sanityFetch } from '../live'
+import { sanityCdnFetch } from '../live'
 
 export const getRelatedProduct = async (categories: string[] = []) => {
   const GET_RELATED_PRODUCT_QUERY = defineQuery(`
@@ -18,7 +18,7 @@ export const getRelatedProduct = async (categories: string[] = []) => {
   `)
 
   try {
-    const products = await sanityFetch({
+    const products = await sanityCdnFetch({
       query: GET_RELATED_PRODUCT_QUERY,
       params: {
         categorySlugs: categories

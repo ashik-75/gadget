@@ -1,12 +1,12 @@
 import { defineQuery } from 'next-sanity'
-import { sanityFetch } from '../live'
+import { sanityCdnFetch } from '../live'
 
 export const getTenProducts = async () => {
   const TEN_PRODUCTS_QUERY = defineQuery(`
               *[_type == "product"] | order(_createdAt desc)[0..9]
           `)
   try {
-    const products = await sanityFetch({
+    const products = await sanityCdnFetch({
       query: TEN_PRODUCTS_QUERY
     })
 
